@@ -1,2 +1,38 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<% @accounts.each do |account| %>
+  <div class="row account">
+    <div class="col-md-10">
+      <table class="table">
+        <thead>
+          <th>
+            <h5><%= account.name %> <%= account.currency %></h5>
+            <h6><%= account.formatted_balance %></h6>
+          </th>
+          <th colspan="2"></th>
+        </thead>
+        <tbody>
+          <tr>
+            <th>2017-01-01</th>
+            <td>234.42 PLN</td>
+            <td>Test short description</td>
+          </tr>
+          <tr>
+            <th>2017-01-01</th>
+            <td>234.42 PLN</td>
+            <td>Test short description</td>
+          </tr>
+          <tr>
+            <th>2017-01-01</th>
+            <td>234.42 PLN</td>
+            <td>Test short description</td>
+          </tr>
+        </tbody>
+      </table>
+      <form class="form-inline">
+        <input type="text" class="form-control mr-md-2 mb-2" value="2017-01-31" />
+        <input type="text" class="form-control mr-md-2 mb-2" placeholder="Amount" />
+        <input type="text" class="form-control mr-md-2 mb-2" placeholder="Description" />
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+      </form>
+    </div>
+  </div>
+<% end %>

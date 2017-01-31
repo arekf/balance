@@ -9,6 +9,27 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if current_controller?(:dashboard) %>" href="<%= root_path %>">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  <%= 'active' if current_controller?(:accounts) %>" href="<%= accounts_path %>">Accounts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  <%= 'active' if current_controller?(:transactions) %>" href="<%= transactions_path %>">Transactions</a>
+            </li>
+          </ul>
+        </nav>
+        <a href="<%= root_path %>">
+          <h3 class="text-muted">Balance</h3>
+        </a>
+      </div>
+
+      <%= yield %>
+    </div>
   </body>
 </html>
