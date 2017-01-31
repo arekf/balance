@@ -4,35 +4,34 @@
       <table class="table">
         <thead>
           <th>
-            <h5><%= account.name %> <%= account.currency %></h5>
+            <h5><%= account %></h5>
             <h6><%= account.formatted_balance %></h6>
           </th>
           <th colspan="2"></th>
         </thead>
         <tbody>
-          <tr>
-            <th>2017-01-01</th>
-            <td>234.42 PLN</td>
-            <td>Test short description</td>
-          </tr>
-          <tr>
-            <th>2017-01-01</th>
-            <td>234.42 PLN</td>
-            <td>Test short description</td>
-          </tr>
-          <tr>
-            <th>2017-01-01</th>
-            <td>234.42 PLN</td>
-            <td>Test short description</td>
-          </tr>
+          <% account.last_transaction_dates.each do |date| %>
+            <% total = account.transactions_total(date) %>
+            <% transactions = account.transactions_for(date).reject { |t| t.description.blank? } %>
+            <tr>
+              <th><%= date %></th>
+              <td class="<%= amount_class(total) %>"><%= format(total, account.currency) %></td>
+              <td>
+                <% transactions.each_with_index do |t, idx| %>
+                  <span class="<%= amount_class(t.amount) %>"><%= t.description %></span><% if idx + 1 < transactions.count %>,<% end %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
-      <form class="form-inline">
-        <input type="text" class="form-control mr-md-2 mb-2" value="2017-01-31" />
-        <input type="text" class="form-control mr-md-2 mb-2" placeholder="Amount" />
-        <input type="text" class="form-control mr-md-2 mb-2" placeholder="Description" />
-        <button type="submit" class="btn btn-primary mb-2">Submit</button>
-      </form>
+      <%= form_for(Transaction.new, html: { class: 'form-inline' }) do |f| %>
+        <%= f.text_field :date, placeholder: 'Date', value: Time.zone.now.strftime('%Y-%m-%d'), class: 'form-control mr-md-2 mb-2 col-sm-12 col-md-3' %>
+        <%= f.text_field :amount, placeholder: 'Amount', class: 'form-control mr-md-2 mb-2 col-sm-12 col-md-3' %>
+        <%= f.text_field :description, placeholder: 'Description', class: 'form-control mr-md-2 mb-2 col-sm-12 col-md-3' %>
+        <%= f.hidden_field :account_id, value: account.id %>
+        <%= f.submit 'Submit', class: 'btn btn-primary mb-2 col-sm-12 col-md-2' %>
+      <% end %>
     </div>
   </div>
 <% end %>

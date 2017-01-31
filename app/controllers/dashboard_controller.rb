@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
   def index
-    @accounts = Account.all
+    @accounts = Account.order(created_at: :asc)
   end
 end
