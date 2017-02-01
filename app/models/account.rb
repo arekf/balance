@@ -34,4 +34,17 @@ class Account < ApplicationRecord
   def recalculate_balance!
     update_attribute(:balance, transactions.sum(:amount))
   end
+
+  def checking?
+    name.downcase == 'checking'
+  end
+
+  def per_day
+    days_left = Time.days_in_month(Time.now.month, Time.now.year) - Time.now.day + 1
+    balance / days_left
+  end
+
+  def formatted_per_day
+    format(per_day, currency)
+  end
 end

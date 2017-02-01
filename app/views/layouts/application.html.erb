@@ -27,7 +27,13 @@
           </ul>
         </nav>
         <a href="<%= root_path %>">
-          <h3 class="text-muted"><%= total_balance %></h3>
+          <h3 class="text-muted">
+            <% if user_signed_in? %>
+              <%= total_balance %>
+            <% else %>
+              Balance
+            <% end %>
+          </h3>
         </a>
       </div>
 

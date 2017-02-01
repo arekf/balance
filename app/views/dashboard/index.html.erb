@@ -5,7 +5,12 @@
         <thead>
           <th>
             <h5><%= account %></h5>
-            <h6><%= account.formatted_balance %></h6>
+            <h6>
+              <%= account.formatted_balance %>
+              <% if account.checking? %>
+                (<%= account.formatted_per_day %> per day)
+              <% end %>
+            </h6>
           </th>
           <th colspan="2"></th>
         </thead>
@@ -27,7 +32,7 @@
       </table>
       <%= form_for(Transaction.new, html: { class: 'form-inline' }) do |f| %>
         <%= f.text_field :date, placeholder: 'Date', value: Time.zone.now.strftime('%Y-%m-%d'), class: 'form-control mr-md-2 mb-2 col-sm-12 col-md-3' %>
-        <%= f.text_field :amount, placeholder: 'Amount', class: 'form-control mr-md-2 mb-2 col-sm-12 col-md-3' %>
+        <%= f.number_field :amount, placeholder: 'Amount', class: 'form-control mr-md-2 mb-2 col-sm-12 col-md-3', step: '0.01' %>
         <%= f.text_field :description, placeholder: 'Description', class: 'form-control mr-md-2 mb-2 col-sm-12 col-md-3' %>
         <%= f.hidden_field :account_id, value: account.id %>
         <%= f.submit 'Submit', class: 'btn btn-primary mb-2 col-sm-12 col-md-2' %>
@@ -35,3 +40,5 @@
     </div>
   </div>
 <% end %>
+
+<%= link_to 'Sign Out', sessions_path, method: :delete %>
